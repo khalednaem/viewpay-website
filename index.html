@@ -3,154 +3,318 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Viewpay | تسجيل الحضور</title>
+  <title>Viewpay | بوابة الموظفين</title>
   <style>
     * { box-sizing: border-box; }
     body {
-      margin: 0; min-height: 100vh; padding: 20px;
-      display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg,#071426,#12345a);
-      color: white; font-family: Arial,sans-serif;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      color: #172033;
     }
+    header {
+      background: #14213d;
+      color: white;
+      padding: 24px 16px;
+      text-align: center;
+    }
+    main { max-width: 650px; margin: 25px auto; padding: 0 14px; }
     .card {
-      width: 100%; max-width: 420px; padding: 30px;
-      border: 1px solid #29466b; border-radius: 20px;
-      background: #10213a; box-shadow: 0 15px 45px #0005;
+      background: white;
+      padding: 22px;
+      margin-bottom: 18px;
+      border-radius: 14px;
+      box-shadow: 0 4px 16px #0000000d;
     }
-    .logo {
-      text-align: center; font-size: 32px;
-      font-weight: bold; color: #66c5ff;
+    h2 { margin-top: 0; font-size: 20px; }
+    input, button {
+      width: 100%;
+      padding: 13px;
+      margin: 8px 0;
+      border-radius: 8px;
+      font-size: 16px;
     }
-    .subtitle {
-      text-align: center; color: #bdcbe0;
-      line-height: 1.8; margin: 15px 0 28px;
-    }
-    label { display: block; margin: 17px 0 8px; }
-    input {
-      width: 100%; padding: 14px; border-radius: 10px;
-      border: 1px solid #365273; background: #09182b;
-      color: white; font-size: 16px; outline: none;
-    }
-    input:focus { border-color: #54b9ff; }
+    input { border: 1px solid #cbd5e1; }
     button {
-      width: 100%; margin-top: 23px; padding: 14px;
-      border: 0; border-radius: 10px; background: #1689e8;
-      color: white; font-size: 16px; font-weight: bold;
+      border: 0;
+      color: white;
+      background: #2563eb;
       cursor: pointer;
     }
-    button:disabled { opacity: .6; }
-    #message {
-      display: none; margin-top: 18px; padding: 13px;
-      border-radius: 9px; line-height: 1.7;
+    button:disabled { opacity: .6; cursor: wait; }
+    .secondary { background: #334155; }
+    .message { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .hidden { display: none; }
+    .record {
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e8f0;
+      overflow-wrap: anywhere;
     }
-    .footer {
-      text-align: center; color: #9eb2cb;
-      font-size: 12px; line-height: 1.8; margin-top: 20px;
-    }
+    small { color: #64748b; }
   </style>
 </head>
 <body>
-  <main class="card">
-    <div class="logo">VIEWPAY</div>
-    <p class="subtitle">
-      أهلاً بيك في Viewpay<br>
-      سجّل حضورك برقم الهاتف والكود الوظيفي.
-    </p>
+<header>
+  <h1>Viewpay</h1>
+  <p>بوابة الموظفين والحضور</p>
+</header>
 
+<main>
+  <section class="card">
+    <h2>تسجيل الحضور</h2>
     <form id="attendanceForm">
-      <label for="phone">رقم الهاتف</label>
-      <input id="phone" type="tel" inputmode="tel"
-        autocomplete="tel" placeholder="اكتب رقم الهاتف"
-        maxlength="20" required>
-
-      <label for="code">الكود الوظيفي</label>
-      <input id="code" type="password" autocomplete="off"
-        placeholder="اكتب الكود الوظيفي" maxlength="100" required>
-
-      <button id="submitButton" type="submit">
-        تسجيل الحضور
-      </button>
+      <input id="phone" type="tel" placeholder="رقم الموبايل"
+             autocomplete="tel" required>
+      <input id="attendanceCode" type="password"
+             placeholder="كود الحضور" autocomplete="off" required>
+      <button type="submit">تسجيل الحضور</button>
     </form>
+    <p id="attendanceMessage" class="message" role="status"></p>
+  </section>
 
-    <div id="message" role="status" aria-live="polite"></div>
-    <div class="footer">نظام تسجيل الحضور الخاص بـ Viewpay</div>
-  </main>
+  <section class="card">
+    <h2>كود دعوة الشركة</h2>
+    <p>أدخل كود الدعوة المخصص لك. سيتم تسجيل الكود الذي تدخله لدى إدارة الشركة.</p>
+    <form id="inviteForm">
+      <input id="inviteCode" type="text" maxlength="100"
+             placeholder="اكتب كود الدعوة" autocomplete="off" required>
+      <button type="submit">إرسال كود الدعوة</button>
+    </form>
+    <p id="inviteMessage" class="message" role="status"></p>
+  </section>
 
-  <script type="module">
-    import { createClient } from
-      'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+  <section class="card">
+    <h2>دخول الإدارة</h2>
+    <form id="adminLoginForm">
+      <input id="adminEmail" type="email" placeholder="البريد الإلكتروني للإدارة"
+             autocomplete="username" required>
+      <input id="adminPassword" type="password" placeholder="كلمة مرور الإدارة"
+             autocomplete="current-password" required>
+      <button type="submit">تسجيل دخول المدير</button>
+    </form>
+    <p id="adminMessage" class="message" role="status"></p>
 
-    const SUPABASE_URL =
-      'https://mfzygmdxlioigodrqlca.supabase.co';
+    <div id="adminPanel" class="hidden">
+      <hr>
+      <h2>لوحة الإدارة</h2>
+      <button id="loadInvites">عرض أكواد الدعوة المسجلة</button>
+      <button id="loadAttendance" class="secondary">عرض تقرير الحضور</button>
+      <button id="logout" class="secondary">تسجيل الخروج</button>
+      <div id="adminResults" aria-live="polite"></div>
+    </div>
+  </section>
+</main>
 
-    const SUPABASE_PUBLISHABLE_KEY =
-      'sb_publishable_6nKHRh9bp5WHG77nCvAmgA_S6cg1jLo';
+<script type="module">
+  import { createClient } from
+    'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-    const supabase = createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
+  const SUPABASE_URL =
+    'https://mfzygmdxlioigodrqlca.supabase.co';
 
-    const form = document.getElementById('attendanceForm');
-    const message = document.getElementById('message');
-    const button = document.getElementById('submitButton');
+  const SUPABASE_PUBLISHABLE_KEY =
+    'sb_publishable_6nKHRh9bp5WHG77nCvAmgA_S6cg1jLo';
 
-    function showMessage(text, success = false) {
-      message.textContent = text;
-      message.style.display = 'block';
-      message.style.background = success ? '#123c32' : '#47262c';
-      message.style.color = success ? '#a7f3d0' : '#fecaca';
+  const supabase = createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+  const $ = (id) => document.getElementById(id);
+
+  function showMessage(id, message) {
+    $(id).textContent = message;
+  }
+
+  function showData(container, data) {
+    const box = $(container);
+    box.replaceChildren();
+
+    if (data == null) {
+      box.textContent = 'لا توجد بيانات للعرض.';
+      return;
     }
 
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
+    const items = Array.isArray(data) ? data : [data];
 
-      const phone = document.getElementById('phone').value.trim();
-      const code = document.getElementById('code').value.trim();
+    if (items.length === 0) {
+      box.textContent = 'لا توجد سجلات.';
+      return;
+    }
 
-      if (!phone || !code) {
-        showMessage('اكتب رقم الهاتف والكود الوظيفي.');
-        return;
+    for (const item of items) {
+      const record = document.createElement('div');
+      record.className = 'record';
+      record.textContent = JSON.stringify(item, null, 2);
+      box.appendChild(record);
+    }
+  }
+
+  async function runWithButton(button, task) {
+    button.disabled = true;
+    try {
+      await task();
+    } catch (error) {
+      console.error(error);
+      showMessage('adminMessage', 'حصل خطأ. راجع إعدادات قاعدة البيانات.');
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  $('attendanceForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = event.submitter;
+    button.disabled = true;
+    showMessage('attendanceMessage', 'جارٍ تسجيل الحضور...');
+
+    try {
+      const phone = $('phone').value.trim();
+      const code = $('attendanceCode').value;
+
+      const { data, error } = await supabase.rpc('record_attendance', {
+        p_phone: phone,
+        p_code: code
+      });
+
+      if (error) throw error;
+
+      showMessage('attendanceMessage',
+        typeof data === 'string' ? data : JSON.stringify(data));
+    } catch (error) {
+      console.error(error);
+      showMessage('attendanceMessage',
+        'تعذر تسجيل الحضور. تأكد من البيانات وحاول مرة أخرى.');
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  $('inviteForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = event.submitter;
+    button.disabled = true;
+    showMessage('inviteMessage', 'جارٍ إرسال الكود...');
+
+    try {
+      const code = $('inviteCode').value.trim();
+
+      const { data, error } = await supabase.rpc(
+        'record_invite_code_attempt',
+        { p_code: code }
+      );
+
+      if (error) throw error;
+      if (data && data.success === false) {
+        throw new Error('الكود غير صالح');
       }
 
-      button.disabled = true;
-      button.textContent = 'جاري التحقق...';
-      message.style.display = 'none';
+      $('inviteCode').value = '';
+      showMessage('inviteMessage',
+        'تم تسجيل محاولة إرسال الكود.');
+    } catch (error) {
+      console.error(error);
+      showMessage('inviteMessage',
+        'تعذر تسجيل الكود. حاول مرة أخرى.');
+    } finally {
+      button.disabled = false;
+    }
+  });
 
-      try {
-        const { data, error } = await supabase.rpc(
-          'record_attendance',
-          { p_phone: phone, p_code: code }
-        );
+  async function checkAdmin() {
+    const { data: { session } } = await supabase.auth.getSession();
 
-        if (error) {
-          console.error('Attendance error:', error.message);
-          showMessage(
-            'تعذر تسجيل الحضور. راجع البيانات أو تواصل مع المسؤول.'
-          );
-          return;
-        }
+    if (!session) {
+      $('adminPanel').classList.add('hidden');
+      return false;
+    }
 
-        if (data && typeof data === 'object' &&
-            data.success === false) {
-          showMessage(data.message || 'لم يتم تسجيل الحضور.');
-          return;
-        }
+    const { data, error } = await supabase.rpc('is_current_user_admin');
 
-        showMessage(
-          'تم استلام الطلب. تأكد من تسجيل الحضور في النظام.',
-          true
-        );
-        form.reset();
+    if (error || data !== true) {
+      $('adminPanel').classList.add('hidden');
+      showMessage('adminMessage',
+        'هذا الحساب ليس حساب مدير معتمد.');
+      return false;
+    }
 
-      } catch (error) {
-        console.error('Connection error:', error);
-        showMessage('تعذر الاتصال. تحقق من الإنترنت وحاول مرة أخرى.');
-      } finally {
-        button.disabled = false;
-        button.textContent = 'تسجيل الحضور';
+    $('adminPanel').classList.remove('hidden');
+    showMessage('adminMessage', 'تم تسجيل الدخول كمدير.');
+    return true;
+  }
+
+  $('adminLoginForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = event.submitter;
+    button.disabled = true;
+
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: $('adminEmail').value.trim(),
+        password: $('adminPassword').value
+      });
+
+      if (error) throw error;
+
+      const isAdmin = await checkAdmin();
+
+      if (!isAdmin) {
+        await supabase.auth.signOut();
       }
+    } catch (error) {
+      console.error(error);
+      showMessage('adminMessage',
+        'تعذر تسجيل الدخول. تأكد من الحساب وكلمة المرور.');
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  $('loadInvites').addEventListener('click', async (event) => {
+    await runWithButton(event.currentTarget, async () => {
+      if (!await checkAdmin()) return;
+
+      const { data, error } = await supabase.rpc(
+        'admin_list_invite_code_attempts'
+      );
+
+      if (error) throw error;
+      showData('adminResults', data);
     });
-  </script>
+  });
+
+  $('loadAttendance').addEventListener('click', async (event) => {
+    await runWithButton(event.currentTarget, async () => {
+      if (!await checkAdmin()) return;
+
+      const { data, error } = await supabase.rpc(
+        'admin_attendance_report'
+      );
+
+      if (error) throw error;
+      showData('adminResults', data);
+    });
+  });
+
+  $('logout').addEventListener('click', async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      showMessage('adminMessage', 'تعذر تسجيل الخروج.');
+      return;
+    }
+
+    $('adminPanel').classList.add('hidden');
+    $('adminPassword').value = '';
+    $('adminResults').replaceChildren();
+    showMessage('adminMessage', 'تم تسجيل الخروج.');
+  });
+
+  supabase.auth.onAuthStateChange(() => {
+    setTimeout(() => checkAdmin(), 0);
+  });
+
+  checkAdmin();
+</script>
 </body>
 </html>
