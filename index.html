@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viewpay</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      font-family: Arial, Tahoma, sans-serif;
+      background:
+        radial-gradient(circle at top right, #15366b, transparent 35%),
+        #071326;
+      color: #fff;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 480px;
+      padding: 35px 28px;
+      border: 1px solid #17417e;
+      border-radius: 22px;
+      background: #0b1a32;
+      box-shadow: 0 20px 60px #0005;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 38px;
+      direction: ltr;
+    }
+
+    .logo {
+      color: #2585ff;
+      font-size: 52px;
+      font-weight: bold;
+    }
+
+    .brand h1 {
+      font-size: 43px;
+      margin: 5px 0;
+    }
+
+    .brand span {
+      color: #2585ff;
+    }
+
+    label {
+      display: block;
+      margin: 22px 0 10px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 17px;
+      border: 1px solid #31598d;
+      border-radius: 12px;
+      background: #112541;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #2585ff;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 28px;
+      padding: 17px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(100deg, #2183ff, #0864f5);
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .message {
+      margin-top: 18px;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .security {
+      margin-top: 28px;
+      text-align: center;
+      color: #8da6cc;
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+
+    <header class="brand">
+      <div class="logo">Ⅴ</div>
+      <h1>View<span>pay</span></h1>
+    </header>
+
+    <form id="loginForm">
+
+      <label for="phone">رقم الهاتف</label>
+      <input
+        id="phone"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        placeholder="أدخل رقم الهاتف"
+        maxlength="20"
+        required
+      >
+
+      <label for="code">الكود</label>
+      <input
+        id="code"
+        type="password"
+        autocomplete="off"
+        placeholder="أدخل الكود الخاص بك"
+        maxlength="100"
+        required
+      >
+
+      <button type="submit">
+        تسجيل الحضور ←
+      </button>
+
+      <p id="message" class="message" role="status"></p>
+
+    </form>
+
+    <div class="security">
+      ♢ بياناتك تُستخدم لتسجيل الحضور فقط
+    </div>
+
+  </main>
+
+  <script>
+    document.getElementById("loginForm")
+      .addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const phone = document.getElementById("phone").value.trim();
+        const code = document.getElementById("code").value;
+
+        if (!phone || !code) {
+          document.getElementById("message").textContent =
+            "من فضلك أدخل البيانات المطلوبة.";
+          return;
+        }
+
+        document.getElementById("message").textContent =
+          "الواجهة جاهزة، لكن قاعدة البيانات لم يتم ربطها بعد.";
+      });
+  </script>
+
+</body>
+</html>
