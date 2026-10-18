@@ -2,177 +2,155 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Viewpay</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Viewpay | تسجيل الحضور</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      font-family: Arial, Tahoma, sans-serif;
-      background:
-        radial-gradient(circle at top right, #15366b, transparent 35%),
-        #071326;
-      color: #fff;
+      margin: 0; min-height: 100vh; padding: 20px;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg,#071426,#12345a);
+      color: white; font-family: Arial,sans-serif;
     }
-
     .card {
-      width: 100%;
-      max-width: 480px;
-      padding: 35px 28px;
-      border: 1px solid #17417e;
-      border-radius: 22px;
-      background: #0b1a32;
-      box-shadow: 0 20px 60px #0005;
+      width: 100%; max-width: 420px; padding: 30px;
+      border: 1px solid #29466b; border-radius: 20px;
+      background: #10213a; box-shadow: 0 15px 45px #0005;
     }
-
-    .brand {
-      text-align: center;
-      margin-bottom: 38px;
-      direction: ltr;
-    }
-
     .logo {
-      color: #2585ff;
-      font-size: 52px;
-      font-weight: bold;
+      text-align: center; font-size: 32px;
+      font-weight: bold; color: #66c5ff;
     }
-
-    .brand h1 {
-      font-size: 43px;
-      margin: 5px 0;
+    .subtitle {
+      text-align: center; color: #bdcbe0;
+      line-height: 1.8; margin: 15px 0 28px;
     }
-
-    .brand span {
-      color: #2585ff;
-    }
-
-    label {
-      display: block;
-      margin: 22px 0 10px;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
+    label { display: block; margin: 17px 0 8px; }
     input {
-      display: block;
-      width: 100%;
-      padding: 17px;
-      border: 1px solid #31598d;
-      border-radius: 12px;
-      background: #112541;
-      color: white;
-      font-size: 16px;
-      outline: none;
+      width: 100%; padding: 14px; border-radius: 10px;
+      border: 1px solid #365273; background: #09182b;
+      color: white; font-size: 16px; outline: none;
     }
-
-    input:focus {
-      border-color: #2585ff;
-    }
-
+    input:focus { border-color: #54b9ff; }
     button {
-      width: 100%;
-      margin-top: 28px;
-      padding: 17px;
-      border: none;
-      border-radius: 12px;
-      background: linear-gradient(100deg, #2183ff, #0864f5);
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
+      width: 100%; margin-top: 23px; padding: 14px;
+      border: 0; border-radius: 10px; background: #1689e8;
+      color: white; font-size: 16px; font-weight: bold;
       cursor: pointer;
     }
-
-    button:hover {
-      opacity: 0.9;
+    button:disabled { opacity: .6; }
+    #message {
+      display: none; margin-top: 18px; padding: 13px;
+      border-radius: 9px; line-height: 1.7;
     }
-
-    .message {
-      margin-top: 18px;
-      text-align: center;
-      line-height: 1.7;
-    }
-
-    .security {
-      margin-top: 28px;
-      text-align: center;
-      color: #8da6cc;
-      font-size: 13px;
+    .footer {
+      text-align: center; color: #9eb2cb;
+      font-size: 12px; line-height: 1.8; margin-top: 20px;
     }
   </style>
 </head>
-
 <body>
   <main class="card">
+    <div class="logo">VIEWPAY</div>
+    <p class="subtitle">
+      أهلاً بيك في Viewpay<br>
+      سجّل حضورك برقم الهاتف والكود الوظيفي.
+    </p>
 
-    <header class="brand">
-      <div class="logo">Ⅴ</div>
-      <h1>View<span>pay</span></h1>
-    </header>
-
-    <form id="loginForm">
-
+    <form id="attendanceForm">
       <label for="phone">رقم الهاتف</label>
-      <input
-        id="phone"
-        type="tel"
-        inputmode="tel"
-        autocomplete="tel"
-        placeholder="أدخل رقم الهاتف"
-        maxlength="20"
-        required
-      >
+      <input id="phone" type="tel" inputmode="tel"
+        autocomplete="tel" placeholder="اكتب رقم الهاتف"
+        maxlength="20" required>
 
-      <label for="code">الكود</label>
-      <input
-        id="code"
-        type="password"
-        autocomplete="off"
-        placeholder="أدخل الكود الخاص بك"
-        maxlength="100"
-        required
-      >
+      <label for="code">الكود الوظيفي</label>
+      <input id="code" type="password" autocomplete="off"
+        placeholder="اكتب الكود الوظيفي" maxlength="100" required>
 
-      <button type="submit">
-        تسجيل الحضور ←
+      <button id="submitButton" type="submit">
+        تسجيل الحضور
       </button>
-
-      <p id="message" class="message" role="status"></p>
-
     </form>
 
-    <div class="security">
-      ♢ بياناتك تُستخدم لتسجيل الحضور فقط
-    </div>
-
+    <div id="message" role="status" aria-live="polite"></div>
+    <div class="footer">نظام تسجيل الحضور الخاص بـ Viewpay</div>
   </main>
 
-  <script>
-    document.getElementById("loginForm")
-      .addEventListener("submit", function(event) {
-        event.preventDefault();
+  <script type="module">
+    import { createClient } from
+      'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-        const phone = document.getElementById("phone").value.trim();
-        const code = document.getElementById("code").value;
+    const SUPABASE_URL =
+      'https://mfzygmdxlioigodrqlca.supabase.co';
 
-        if (!phone || !code) {
-          document.getElementById("message").textContent =
-            "من فضلك أدخل البيانات المطلوبة.";
+    const SUPABASE_PUBLISHABLE_KEY =
+      'sb_publishable_6nKHRh9bp5WHG77nCvAmgA_S6cg1jLo';
+
+    const supabase = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const form = document.getElementById('attendanceForm');
+    const message = document.getElementById('message');
+    const button = document.getElementById('submitButton');
+
+    function showMessage(text, success = false) {
+      message.textContent = text;
+      message.style.display = 'block';
+      message.style.background = success ? '#123c32' : '#47262c';
+      message.style.color = success ? '#a7f3d0' : '#fecaca';
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const phone = document.getElementById('phone').value.trim();
+      const code = document.getElementById('code').value.trim();
+
+      if (!phone || !code) {
+        showMessage('اكتب رقم الهاتف والكود الوظيفي.');
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = 'جاري التحقق...';
+      message.style.display = 'none';
+
+      try {
+        const { data, error } = await supabase.rpc(
+          'record_attendance',
+          { p_phone: phone, p_code: code }
+        );
+
+        if (error) {
+          console.error('Attendance error:', error.message);
+          showMessage(
+            'تعذر تسجيل الحضور. راجع البيانات أو تواصل مع المسؤول.'
+          );
           return;
         }
 
-        document.getElementById("message").textContent =
-          "الواجهة جاهزة، لكن قاعدة البيانات لم يتم ربطها بعد.";
-      });
-  </script>
+        if (data && typeof data === 'object' &&
+            data.success === false) {
+          showMessage(data.message || 'لم يتم تسجيل الحضور.');
+          return;
+        }
 
+        showMessage(
+          'تم استلام الطلب. تأكد من تسجيل الحضور في النظام.',
+          true
+        );
+        form.reset();
+
+      } catch (error) {
+        console.error('Connection error:', error);
+        showMessage('تعذر الاتصال. تحقق من الإنترنت وحاول مرة أخرى.');
+      } finally {
+        button.disabled = false;
+        button.textContent = 'تسجيل الحضور';
+      }
+    });
+  </script>
 </body>
 </html>
